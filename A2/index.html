@@ -1,0 +1,721 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Assignment Two</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://arcms.w4v.es/Assets/Supreme/stylesheet.css" rel="stylesheet">
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+  <body>
+    <div class = "page">
+      <h1>Task 1</h1>
+        <ol type = "a">
+          <li>
+            For some array $R$ of positive integers with length $n$
+            and $d$ the minimum distance between picked items. Define $OPT(i)$ to be the
+            maximum revenue choosing from the first i revenues.
+          </li>
+          <li>
+            $OPT(i) = \begin{cases}
+            0 & i < 0\\
+            max (R[i] + OPT(i - d), \ OPT(i - 1)) &
+            \end{cases}$
+          </li>
+          <li>
+            The base case is when $i < 0$. In this case $OPT(0) = 0$ as choosing
+            from no revenues will result in no profit.
+          </li>
+          <li>
+            The most value achieved is in the subproblem $OPT(n - 1)$, choosing
+            from all revenues in $R$.
+          </li>
+          <li>
+            As selecting from no revenues will result in no selections the base
+            case is sufficient.<br /><br />
+            Let $OPT(i - 1)$ be the optimal solution for $i - 1 < n$<br /><br />
+            Consider $OPT(i)$ we can either choose to select the revenue at i or
+            skip it.<br />
+            If we choose to add the revenue at $i$ then the next item we can select
+            must be at least d spaces from $i$. As $d \ge 1$ then $i - d < n$
+            and hence the solution for the proceeding selections must also be optimal.<br />
+            If we choose to skip the revenue at $i$ the next revenue we can select
+            can be directly next to $i$, $i - 1$.<br />
+            As the optimal solution after skipping or selecting is defined for the
+            proceeding selections, choosing the maximum of these options will
+            maximise profit.
+          </li>
+          <li>
+            Consider the $OPT(i)$ for $i = n - 1$.
+            <svg version="1.1" id="node" onclick="testyFunction({x:4, y:0, a:0, b:i})"
+            	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 712.3 523.6"
+            	 style="enable-background:new 0 0 712.3 523.6;" xml:space="preserve">
+              <style type="text/css">
+              	.st0{font-family:'TimesNewRomanPS-ItalicMT';}
+              	.st1{font-size:15px;}
+              	.st2{fill:none;stroke:url(#SVGID_1_);stroke-width:3.3333;}
+              	.st3{fill:none;stroke:url(#SVGID_2_);stroke-width:3.3333;}
+              	.st4{fill:none;stroke:url(#SVGID_3_);stroke-width:3.3333;}
+              	.st5{fill:none;stroke:url(#SVGID_4_);stroke-width:3.3333;}
+              	.st6{fill:none;stroke:url(#SVGID_5_);stroke-width:3.3333;}
+              	.st7{fill:none;stroke:url(#SVGID_6_);stroke-width:3.3333;}
+              	.st8{fill:none;stroke:url(#SVGID_7_);stroke-width:3.3333;}
+              	.st9{fill:none;stroke:url(#SVGID_8_);stroke-width:3.3333;}
+              	.st10{fill:none;stroke:url(#SVGID_9_);stroke-width:3.3333;}
+              	.st11{fill:none;stroke:url(#SVGID_10_);stroke-width:3.3333;}
+              	.st12{fill:none;stroke:url(#SVGID_11_);stroke-width:3.3333;}
+              	.st13{fill:none;stroke:url(#SVGID_12_);stroke-width:3.3333;}
+              	.st14{fill:none;stroke:url(#SVGID_13_);stroke-width:3.3333;}
+              	.st15{fill:none;stroke:url(#SVGID_14_);stroke-width:3.3333;}
+              	.st16{fill:#4D5AFF;}
+              	.st17{fill:#50BCFF;}
+              	.st18{fill:#FFFFFF;}
+              	.st19{font-size:14px;}
+              	.st20{opacity:0.5;fill:none;stroke:#50BCFF;stroke-width:3;stroke-miterlimit:10;}
+              </style>
+              <text transform="matrix(1 0 0 1 452.1767 16.9999)" class="st0 st1">Recursion depth</text>
+              <text transform="matrix(1 0 0 1 451.8335 39.6542)" class="st0 st1">OPT</text>
+              <g>
+              	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="190.3635" y1="450" x2="190.3635" y2="350">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st2" d="M207.9,350c0,50-35,50-35,100"/>
+              	<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="225.3635" y1="450" x2="225.3635" y2="350">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st3" d="M207.9,350c0,50,35,50,35,100"/>
+              	<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="242.8635" y1="300" x2="242.8635" y2="200">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st4" d="M277.9,200c0,50-70,50-70,100"/>
+              	<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="330.3635" y1="450" x2="330.3635" y2="350">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st5" d="M347.9,350c0,50-35,50-35,100"/>
+              	<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="365.3635" y1="450" x2="365.3635" y2="350">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st6" d="M347.9,350c0,50,35,50,35,100"/>
+              	<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="312.8635" y1="300" x2="312.8635" y2="200">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st7" d="M277.9,200c0,50,70,50,70,100"/>
+              	<linearGradient id="SVGID_7_" gradientUnits="userSpaceOnUse" x1="347.8635" y1="150" x2="347.8635" y2="50">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st8" d="M417.9,50c0,50-140,50-140,100"/>
+              	<linearGradient id="SVGID_8_" gradientUnits="userSpaceOnUse" x1="470.3635" y1="450" x2="470.3635" y2="350">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st9" d="M487.9,350c0,50-35,50-35,100"/>
+              	<linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="505.3635" y1="450" x2="505.3635" y2="350">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st10" d="M487.9,350c0,50,35,50,35,100"/>
+              	<linearGradient id="SVGID_10_" gradientUnits="userSpaceOnUse" x1="522.8635" y1="300" x2="522.8635" y2="200">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st11" d="M557.9,200c0,50-70,50-70,100"/>
+              	<linearGradient id="SVGID_11_" gradientUnits="userSpaceOnUse" x1="610.3635" y1="450" x2="610.3635" y2="350">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st12" d="M627.9,350c0,50-35,50-35,100"/>
+              	<linearGradient id="SVGID_12_" gradientUnits="userSpaceOnUse" x1="645.3635" y1="450" x2="645.3635" y2="350">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st13" d="M627.9,350c0,50,35,50,35,100"/>
+              	<linearGradient id="SVGID_13_" gradientUnits="userSpaceOnUse" x1="592.8635" y1="300" x2="592.8635" y2="200">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st14" d="M557.9,200c0,50,70,50,70,100"/>
+              	<linearGradient id="SVGID_14_" gradientUnits="userSpaceOnUse" x1="487.8635" y1="150" x2="487.8635" y2="50">
+              		<stop  offset="0" style="stop-color:#50BCFF"/>
+              		<stop  offset="1" style="stop-color:#4D5AFF"/>
+              	</linearGradient>
+              	<path class="st15" d="M417.9,50c0,50,140,50,140,100"/>
+              </g>
+              <g>
+              	<path class="st16" d="M147.9,475h50c0,13.8-11.2,25-25,25C159.1,500,147.9,488.8,147.9,475"/>
+              	<path class="st16" d="M217.9,475h50c0,13.8-11.2,25-25,25C229.1,500,217.9,488.8,217.9,475"/>
+              	<path class="st16" d="M182.9,325h50c0,13.8-11.2,25-25,25C194.1,350,182.9,338.8,182.9,325"/>
+              	<path class="st16" d="M287.9,475h50c0,13.8-11.2,25-25,25C299.1,500,287.9,488.8,287.9,475"/>
+              	<path class="st16" d="M357.9,475h50c0,13.8-11.2,25-25,25C369.1,500,357.9,488.8,357.9,475"/>
+              	<path class="st16" d="M322.9,325h50c0,13.8-11.2,25-25,25C334.1,350,322.9,338.8,322.9,325"/>
+              	<path class="st16" d="M252.9,175h50c0,13.8-11.2,25-25,25C264.1,200,252.9,188.8,252.9,175"/>
+              	<path class="st16" d="M427.9,475h50c0,13.8-11.2,25-25,25C439.1,500,427.9,488.8,427.9,475"/>
+              	<path class="st16" d="M497.9,475h50c0,13.8-11.2,25-25,25C509.1,500,497.9,488.8,497.9,475"/>
+              	<path class="st16" d="M462.9,325h50c0,13.8-11.2,25-25,25C474.1,350,462.9,338.8,462.9,325"/>
+              	<path class="st16" d="M567.9,475h50c0,13.8-11.2,25-25,25C579.1,500,567.9,488.8,567.9,475"/>
+              	<path class="st16" d="M637.9,475h50c0,13.8-11.2,25-25,25C649.1,500,637.9,488.8,637.9,475"/>
+              	<path class="st16" d="M602.9,325h50c0,13.8-11.2,25-25,25C614.1,350,602.9,338.8,602.9,325"/>
+              	<path class="st16" d="M532.9,175h50c0,13.8-11.2,25-25,25C544.1,200,532.9,188.8,532.9,175"/>
+              	<path class="st16" d="M392.9,25h50c0,13.8-11.2,25-25,25C404.1,50,392.9,38.8,392.9,25"/>
+              </g>
+              <g>
+              	<path class="st17" d="M197.9,475h-50c0-13.8,11.2-25,25-25C186.7,450,197.9,461.2,197.9,475"/>
+              	<path class="st17" d="M267.9,475h-50c0-13.8,11.2-25,25-25C256.7,450,267.9,461.2,267.9,475"/>
+              	<path class="st17" d="M232.9,325h-50c0-13.8,11.2-25,25-25C221.7,300,232.9,311.2,232.9,325"/>
+              	<path class="st17" d="M337.9,475h-50c0-13.8,11.2-25,25-25C326.7,450,337.9,461.2,337.9,475"/>
+              	<path class="st17" d="M407.9,475h-50c0-13.8,11.2-25,25-25C396.7,450,407.9,461.2,407.9,475"/>
+              	<path class="st17" d="M372.9,325h-50c0-13.8,11.2-25,25-25C361.7,300,372.9,311.2,372.9,325"/>
+              	<path class="st17" d="M302.9,175h-50c0-13.8,11.2-25,25-25C291.7,150,302.9,161.2,302.9,175"/>
+              	<path class="st17" d="M477.9,475h-50c0-13.8,11.2-25,25-25C466.7,450,477.9,461.2,477.9,475"/>
+              	<path class="st17" d="M547.9,475h-50c0-13.8,11.2-25,25-25C536.7,450,547.9,461.2,547.9,475"/>
+              	<path class="st17" d="M512.9,325h-50c0-13.8,11.2-25,25-25C501.7,300,512.9,311.2,512.9,325"/>
+              	<path class="st17" d="M617.9,475h-50c0-13.8,11.2-25,25-25C606.7,450,617.9,461.2,617.9,475"/>
+              	<path class="st17" d="M687.9,475h-50c0-13.8,11.2-25,25-25C676.7,450,687.9,461.2,687.9,475"/>
+              	<path class="st17" d="M652.9,325h-50c0-13.8,11.2-25,25-25C641.7,300,652.9,311.2,652.9,325"/>
+              	<path class="st17" d="M582.9,175h-50c0-13.8,11.2-25,25-25C571.7,150,582.9,161.2,582.9,175"/>
+              	<path class="st17" d="M442.9,25h-50c0-13.8,11.2-25,25-25C431.7,0,442.9,11.2,442.9,25"/>
+              </g>
+              <g>
+              	<text transform="matrix(1 0 0 1 168.5266 467)" class="st18 st0 st19">3</text>
+              	<text transform="matrix(1 0 0 1 165.1955 489.5)" class="st18 st0 st19">i-3</text>
+              	<text transform="matrix(1 0 0 1 238.5266 467)" class="st18 st0 st19">3</text>
+              	<text transform="matrix(1 0 0 1 229.8605 489.5)" class="st18 st0 st19">i-2-d</text>
+              	<text transform="matrix(1 0 0 1 203.5266 317)" class="st18 st0 st19">2</text>
+              	<text transform="matrix(1 0 0 1 200.1955 339.5)" class="st18 st0 st19">i-2</text>
+              	<text transform="matrix(1 0 0 1 308.5266 467)" class="st18 st0 st19">3</text>
+              	<text transform="matrix(1 0 0 1 296.5237 489.5)" class="st18 st0 st19">i-1-2d</text>
+              	<text transform="matrix(1 0 0 1 378.5266 467)" class="st18 st0 st19">3</text>
+              	<text transform="matrix(1 0 0 1 369.8606 489.5)" class="st18 st0 st19">i-2-d</text>
+              	<text transform="matrix(1 0 0 1 343.5266 317)" class="st18 st0 st19">2</text>
+              	<text transform="matrix(1 0 0 1 334.8606 339.5)" class="st18 st0 st19">i-1-d</text>
+              	<text transform="matrix(1 0 0 1 273.5266 167)" class="st18 st0 st19">1</text>
+              	<text transform="matrix(1 0 0 1 270.1955 189.5)" class="st18 st0 st19">i-1</text>
+              	<text transform="matrix(1 0 0 1 448.5266 467)" class="st18 st0 st19">3</text>
+              	<text transform="matrix(1 0 0 1 441.8586 489.5)" class="st18 st0 st19">i-3d</text>
+              	<text transform="matrix(1 0 0 1 518.5266 467)" class="st18 st0 st19">2</text>
+              	<text transform="matrix(1 0 0 1 506.5237 489.5)" class="st18 st0 st19">i-1-2d</text>
+              	<text transform="matrix(1 0 0 1 483.5266 317)" class="st18 st0 st19">2</text>
+              	<text transform="matrix(1 0 0 1 476.8586 339.5)" class="st18 st0 st19">i-2d</text>
+              	<text transform="matrix(1 0 0 1 588.5266 467)" class="st18 st0 st19">3</text>
+              	<text transform="matrix(1 0 0 1 576.5237 489.5)" class="st18 st0 st19">i-1-2d</text>
+              	<text transform="matrix(1 0 0 1 658.5266 467)" class="st18 st0 st19">3</text>
+              	<text transform="matrix(1 0 0 1 649.8606 489.5)" class="st18 st0 st19">i-2-d</text>
+              	<text transform="matrix(1 0 0 1 623.5266 317)" class="st18 st0 st19">2</text>
+              	<text transform="matrix(1 0 0 1 614.8606 339.5)" class="st18 st0 st19">i-1-d</text>
+              	<text transform="matrix(1 0 0 1 553.5266 167)" class="st18 st0 st19">1</text>
+              	<text transform="matrix(1 0 0 1 550.1956 189.5)" class="st18 st0 st19">i-d</text>
+              	<text transform="matrix(1 0 0 1 413.5266 17)" class="st18 st0 st19">0</text>
+              	<text transform="matrix(1 0 0 1 415.5305 39.5)" class="st18 st0 st19">i</text>
+              </g>
+              <path class="st20" d="M553.2,221H49.3c-25.4,0-46-20.6-46-46v0c0-25.4,20.6-46,46-46h503.9c25.4,0,46,20.6,46,46v0
+              	C599.1,200.4,578.6,221,553.2,221z"/>
+              <path class="st20" d="M626.8,371H49.3c-25.4,0-46-20.6-46-46v0c0-25.4,20.6-46,46-46h577.5c25.4,0,46,20.6,46,46v0
+              	C672.8,350.4,652.2,371,626.8,371z"/>
+              <path class="st20" d="M663.6,521H49.3c-25.4,0-46-20.6-46-46v0c0-25.4,20.6-46,46-46h614.3c25.4,0,46,20.6,46,46v0
+              	C709.6,500.4,689,521,663.6,521z"/>
+              <text transform="matrix(1 0 0 1 35.6813 169.9329)"><tspan x="0" y="0" class="st0 st1">OPT(i - 1)</tspan><tspan x="0" y="18" class="st0 st1">OPT(i - d)</tspan></text>
+              <text transform="matrix(1 0 0 1 35.6816 310.9333)"><tspan x="0" y="0" class="st0 st1">OPT(i - 2)</tspan><tspan x="0" y="18" class="st0 st1">OPT(i - 1 - d)</tspan><tspan x="0" y="36" class="st0 st1">OPT(i - 2d)</tspan></text>
+              <text transform="matrix(1 0 0 1 35.6814 451.9327)"><tspan x="0" y="0" class="st0 st1">OPT(i - 3)</tspan><tspan x="0" y="18" class="st0 st1">OPT(i - 2 - d)</tspan><tspan x="0" y="36" class="st0 st1">OPT(i - 1 -2d)</tspan><tspan x="0" y="54" class="st0 st1">OPT(i - 3d)</tspan></text>
+            </svg>
+            It can be seen at a recursive depth of $j$ the required number of solutions
+            is $j + 2$, the number of compinations of selecting $1$ or $d$, $j + 1$ times
+             (i.e. $j + 1$, $j + d$, $j - 1 + 2d$, ... $(j + 1)d$). The maximum recursive
+             depth will occur when all of the required solutions are base cases.<br />
+             $i - (j + 1) = 0$<br />
+             $n - 1 - (j + 1) = 0$<br />
+             $j = n - 2$<br />
+             The maximum number of solutions to solve will be $1 + 2 + 3 + ... n = \cfrac{n}{2}(n + 1)$.<br />
+             Hence the algorithm will run in $O(n^2)$ time.<br /><br />
+             Solutions of a recursion are dependant only on the solutions from the next recursion,
+             consequently the maximum values required at any time will be $n$<br />
+             Hence the algorithm will require $O(n)$ space.
+
+
+
+          </li>
+        </ol>
+      <h1>Task 2</h1>
+      <grid-map grid = "[
+      [4,8,7,6,5,6,7,8,7,6],
+      [5,2,8,5,5,7,6,4,8,1],
+      [6,7,7,5,6,4,5,3,2,6],
+      [7,6,6,20,8,7,6,5,3,5],
+      [8,5,6,8,0,1,2,4,5,6],
+      [9,4,8,71,6,9,5,7,8,9],
+      [1,3,5,17,1,5,8,0,8,9],
+      [3,2,5,4,5,6,76,4,34,23],
+      [6,13,7,8,9,0,5,10,10,10],
+      [2,3,4,5,6,7,10,10,10,10]]" cost_up = "2" cost_right = "4" budget = "40"></grid-map>
+      <div>
+        <ol type = "a">
+          <li>
+            For some 2d array $S$, where $n$ is the height, $m$ the width, $B$ the budget of costs,
+            $c_{up}$ the cost of moving up and $c_{right}$ the cost of moving right. Define $OPT(i, j)$
+            to be the maximum scoring path starting at the location $(i, j)$, where $i \ge 0$ and $j \ge 0$.
+          </li>
+          <li>
+            $OPT(i, j) = \begin{cases}
+            0 & ic_{up} + jc_{right} > B \\
+            & or \\
+            & i \ge n \lor j \ge m \\
+            S[i, j] + max (OPT(i + 1, j), \ OPT(i, j + 1)) &
+            \end{cases}$
+          </li>
+          <li>
+            The base case is when $(i, j)$ is outside of $S$ or the costs
+            to reach that location exceeds the budget (i.e. $ic_{up} + jc_{right} > B \lor i >= n \lor j >= m$)
+            , in this case $OPT(i, j) = 0$.
+          </li>
+          <li>
+            The most value achieved is in the subproblem $OPT(0, 0)$, the optimal solution for a path ending at the
+            bottom left corner.
+          </li>
+          <li>
+            As a path starting outside the budget range or outside of $S$ is
+            impossible the maximum score that can be acheived is 0, hence the
+            base case is sufficient.<br /><br />
+
+            Let $OPT(i + 1, j)$ and $OPT(i, j + 1)$ be the optimal solutions
+            for $$i+1 \le \cfrac{B - jc_{left}}{c_{up}} 	\land i + 1 < n$$
+            and $$j+1 \le \cfrac{B - ic_{up}}{c_{left}} 	\land j + 1 < m$$
+            Hence, at the location $(i, j)$ a move can be made either up to $(i + 1, j)$
+            or right to $(i, j+1)$. As $OPT(i + 1, j)$ and $OPT(i, j + 1)$ are both
+            defined then the optimal move will be to the next largest solution.
+            Therefore $OPT(i, j) = max(S[i, j] + OPT(i + 1, j), \ s[i, j] + OPT(i, j + 1))$
+            $$OPT(i, j) = S[i, j] + max(OPT(i + 1, j), \ OPT(i, j + 1))$$<br /><br />
+
+
+            To obtain optimal values for the subproblems construct a queue of locations
+            who's solutions require that of a location with higher priority in the queue.
+            In this way the locations with highest prioirty will require only base case locations.
+            Solve the solutions of the locations from highest prioirty to lowest.
+          </li>
+          <li>
+            The alogrithm can be broken into three stages:<br />
+            <ol>
+              <li>
+                Constructing the solution table and populating it with the value $-2$ will run in $O(nm)$
+                time and require $O(nm)$ space.
+              </li>
+              <li>
+                Constructing the queue
+                will require looking and storing at most every location of every element in the grid, starting
+                at $(0,0)$. This stage will also update the solution table changing the value of queued locations
+                to $-1$ such that no location appears more than once in the queue.
+                Hence this stage will run in $O(nm)$ time and require $O(nm)$ space.
+              </li>
+              <li>
+                Solving the values in queue will require looking at every location in the queue and storing
+                every solution in the solution table. Hence this stage will run in $O(nm)$ time and require $O(nm)$
+                space.
+              </li>
+            </ol>
+            As each stage runs in $O(nm)$ time and requires $O(nm)$ space the entire algorithm
+            will run in $O(nm)$ time and require $O(nm)$ space.
+
+          </li>
+        </ol>
+        </ul>
+      </div>
+    </div>
+  </body>
+  <script type = "module">
+    import {SvgPlus, Vector} from 'https://www.svg.plus/3.5.js'
+    class GridMapEl extends SvgPlus{
+      constructor(){
+        super('div');
+        let inputDiv = this.createChild('div');
+        this.crInput = inputDiv.createChild('input', {
+          placeholder: 'cr',
+          type: 'number'
+        })
+        this.cuInput = inputDiv.createChild('input', {
+          placeholder: 'cu',
+          type: 'number'
+        })
+        this.gridmap = this.createChild(GridMap);
+        this.crInput.onkeyup = () => {
+          this.gridmap.cr = this.crInput.value;
+          this.gridmap.draw();
+        }
+        this.cuInput.onkeyup = () => {
+          this.gridmap.cu = this.cuInput.value;
+          this.gridmap.draw();
+        }
+      }
+    }
+    class GridPoint extends SvgPlus{
+      constructor(x, y, rad, value){
+        super('g');
+        this.ellipse = this.createChild('ellipse', {
+          cx: x,
+          cy: y,
+          rx: rad,
+          ry: rad,
+          class: 'node'
+        })
+        this.valueEl = this.createChild('text', {
+          x: x,
+          y: y + rad*0.3,
+          style:{
+            'font-size': rad*0.9,
+          },
+          class: 'node'
+        })
+        this.optEl = this.createChild('text', {
+          x: x,
+          y: y-rad*0.5,
+          style:{
+            'font-size': rad*0.5,
+          },
+          class: 'node'
+        })
+
+        this.value = value;
+        this.opt = -2;
+      }
+
+      set value(value){
+        this._value = value;
+        this.valueEl.innerHTML = value;
+      }
+      get value(){
+        return this._value;
+      }
+
+      set opt(value){
+        this._opt = value;
+        this.optEl.innerHTML = value;
+        if (value == -2) {
+          this.fill = 'hsl(215, 100%, 50%)';
+        }else if(value == -1){
+          this.fill = 'hsl(198, 100%, 50%)';
+        }else{
+          this.fill = "hsl(278, 100%, 50%)";
+        }
+      }
+
+      set fill(value){
+        this.ellipse.styles = {fill: value}
+      }
+
+
+      get opt(){
+        return this._opt;
+      }
+
+    }
+    class GridMap extends SvgPlus{
+      constructor(data){
+        super('svg');
+        this.props = {
+          viewBox: '-10 -10 120 120'
+        }
+
+        this.blur = this.createChild('defs').createChild('filter', {
+          id: 'blur',
+          x: '-50%',
+          y: '-50%',
+          height: '200%',
+          width: '200%',
+        }).createChild('feGaussianBlur', {
+          stdDeviation: "1",
+          x: "-10%",
+          y: "-10%",
+          width: "160%",
+          height: "160%",
+          result: "blurSquares"
+        })
+
+        this.gridPoints = this.createChild('g');
+        this.gridPoints.props = {filter: 'url(#blur)'}
+        this.controls = this.createChild('g');
+
+        // Default
+        this.grid = [[10,12,12,21,7,16,9,12,9,10],[9,8,8,9,9,9,9,9,9,9],[9,8,8,9,9,9,9,9,9,9],[8,8,8,8,9,9,8,9,8,10],[7,7,7,7,7,7,7,7,7,6],[9,8,9,8,9,8,9,8,9,1],[8,8,8,8,8,8,8,8,8,12],[11,4,4,4,4,4,4,4,4,4],[6,6,6,6,6,6,6,6,6,11],[5,5,5,5,5,5,5,5,5,10]]
+        this.cost_right = 3;
+        this.cost_up = 3;
+        this.budget = 40;
+
+        this.max_score_data = data;
+        this.drawControls();
+
+      }
+      async onclick(){
+        await this.fade(300, false)
+        await this.solveAndFindPath(50);
+        setTimeout(async () => {
+          await this.fade(300, true);
+          this.draw();
+
+        }, 2000)
+      }
+
+      get n(){
+        return this.grid.length;
+      }
+      get m(){
+        if (this.grid[0]) {
+          return this.grid[0].length
+        }
+        return 0;
+      }
+      get rad(){
+        return Math.min(100/(this.m - 1), 100/(this.n - 1))/3;
+      }
+
+      async fade(duration, dir){
+        await this.waveTransistion((a) => {
+          this.controls.styles = {
+            opacity: a
+          }
+          this.blur.props = {stdDeviation: a}
+        }, duration, dir)
+      }
+
+
+      set max_score_data(data){
+        if (typeof data === 'object' && data !== null)
+        this.grid = data.grid;
+        this.cost_up = data.cost_up;
+        this.cost_right = data.cost_right;
+        this.budget = data.budget;
+        this.draw();
+      }
+
+      drawControls(){
+        this.controls.innerHTML = "";
+        let size = 100 + 2*this.rad + 10;
+        size = Math.round(size*100)/100;
+
+
+        let pannel = new SvgPlus(document.createElementNS("http://www.w3.org/2000/svg", 'rect'));
+        this.controls.appendChild(pannel);
+
+        pannel.props = {
+          x: -this.rad - 5,
+          y: -this.rad - 5,
+          width: size,
+          height: size,
+          fill: "#9993",
+          rx: this.rad + 5,
+          ry: this.rad + 5
+        }
+        this.controls.createChild('text', {
+          'font-size': '10',
+          'text-anchor': 'middle',
+          x: 50,
+          y: 40
+        }).innerHTML = "Click to watch"
+        this.controls.createChild('text', {
+          'font-size': '10',
+          'text-anchor': 'middle',
+          x: 50,
+          y: 60,
+        }).innerHTML = "live simulation"
+        console.log(pannel instanceof HTMLElement);
+      }
+
+      draw(){
+        this.gridPoints.innerHTML = "";
+        this.opt = [];
+        for (var i = 0; i < this.n; i++) {
+          let row = [];
+          for (var j = 0; j < this.m; j++) {
+            let gridPoint = new GridPoint(100*j/(this.m - 1), 100*(1 - i/(this.n-1)), this.rad, this.grid[i][j]);
+            this.gridPoints.appendChild(gridPoint);
+            row.push(gridPoint)
+          }
+          this.opt.push(row);
+        }
+      }
+
+      isCorner(i, j){
+        let d = this.budget - i*this.cost_up - j*this.cost_right;
+        if (i >= this.n - 1 && j >= this.m - 1) return true;
+        return d >= 0 && d < this.cost_up && d < this.cost_right
+      }
+      getGridPoint(i, j){
+        if (i >= this.n || j >= this.m || i < 0 || j < 0){
+          return null;
+        }
+        if (this.opt && this.opt[i] && this.opt[i][j]){
+          return this.opt[i][j]
+        }
+
+        return null;
+      }
+      getGridOpt(i, j){
+        let opt = this.getGridPoint(i, j);
+        if (opt == null) return 0;
+
+        let d = this.budget - i*this.cost_up - j*this.cost_right;
+        if (d < 0){
+          return 0;
+        }else if (d < this.cost_up && d < this.cost_right){
+          opt.opt = opt.value;
+          return opt.value;
+        }
+
+        return opt.opt;
+      }
+      getGridValue(i, j){
+        let opt = this.getGridPoint(i, j);
+        if (opt == null) return 0;
+        return opt.value;
+      }
+      setGridOpt(i, j, value){
+        let opt =  this.getGridPoint(i, j);
+        if (opt == null) return;
+
+        opt.opt = value;
+      }
+      setOpt(i, j){
+        let d = this.budget - i*this.cost_up - j*this.cost_right
+        if (d < 0){
+          this.setGridOpt(i, j, 0)
+        }else{
+          let opta = this.getGridOpt(i+1, j);
+          let optb = this.getGridOpt(i, j+1);
+          if (opta < 0 || optb < 0) return;
+          this.setGridOpt(i, j, this.getGridValue(i, j) + Math.max(opta, optb));
+        }
+      }
+
+      async solveAndFindPath(time = 200){
+        await this.solveAnimation(time);
+        await this.findSolutionPath(time);
+      }
+      async solveAnimation(time = 200){
+        return new Promise((resolve, reject) => {
+          let queue = [];
+          let comp = [];
+          queue.push({i: 0, j: 0});
+          this.getGridPoint(0,0).opt = -1;
+          let solve = () => {
+            let p = comp.pop();
+            this.setOpt(p.i, p.j);
+            if (comp.length > 0) {
+              setTimeout(solve, time);
+            }else{
+              resolve(this.getGridOpt(0, 0))
+            }
+          }
+          let getSolve = () => {
+            let p = queue.pop();
+            comp.push(p)
+            console.log(this.getGridOpt(p.i + 1, p.j));
+            if (this.getGridOpt(p.i + 1, p.j) == -2) {
+              queue.unshift({i: p.i + 1, j: p.j});
+              this.setGridOpt(p.i + 1, p.j, -1);
+            }
+            if (this.getGridOpt(p.i, p.j + 1) == -2) {
+              queue.unshift({i: p.i, j: p.j + 1})
+              this.setGridOpt(p.i, p.j + 1, -1);
+            }
+
+            if (queue.length > 0) {
+              setTimeout(getSolve, time);
+            }else{
+              solve();
+            }
+          }
+          getSolve()
+        })
+      }
+      async findSolutionPath(time = 200){
+        return new Promise(async (resolve, reject) => {
+          let i = 0, j = 0;
+          let next = () => {
+            let opt = this.getGridPoint(i, j);
+            opt.fill = "hsl(325, 100%, 50%)";
+
+            if (!this.isCorner(i, j)){
+              let opta = this.getGridOpt(i + 1, j);
+              let optb = this.getGridOpt(i, j + 1);
+              if (opta > optb){
+                i++;
+              }else{
+                j++;
+              }
+              setTimeout(next, time);
+            }else{
+              resolve(true);
+            }
+          }
+          next();
+        });
+      }
+    }
+
+
+
+    for (var gridmap of document.getElementsByTagName('grid-map')){
+      if (gridmap.parentNode){
+        gridmap.parentNode.replaceChild(new GridMap({
+          grid: JSON.parse(gridmap.getAttribute('grid')),
+          cost_up: parseInt(gridmap.getAttribute('cost_up')),
+          cost_right: parseInt(gridmap.getAttribute('cost_right')),
+          budget: parseInt(gridmap.getAttribute('budget')),
+        }), gridmap)
+      }
+    }
+
+
+  </script>
+  <style>
+  li{
+    padding-bottom: 5mm;
+  }
+  body{
+    font-family: 'Supreme LL TT Book';
+    background: #111;
+  }
+
+  text.node{
+    text-anchor: middle;
+    alignment-baseline: middle;
+    fill: #eee;
+  }
+
+  .page{
+    width: calc(210mm - 2*20mm);
+    margin: auto;
+    background: white;
+    padding: 20mm;
+  }
+
+  @media print
+  {
+      @page {
+        size: A4; /* DIN A4 standard, Europe */
+        margin: 20mm 10mm;
+      }
+      h1{
+        page-break-before: always;
+      }
+      .page{
+        padding: 0;
+      }
+  }
+
+
+  </style>
+</html>

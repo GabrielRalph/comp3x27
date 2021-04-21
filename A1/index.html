@@ -1,0 +1,301 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Assignment One</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- <link rel="stylesheet" href="stylesheet.css"> -->
+    <!-- <link href="../../Supreme/stylesheet.css" rel="stylesheet"> -->
+    <link href="https://arcms.w4v.es/Assets/Supreme/stylesheet.css" rel="stylesheet">
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+<body>
+  <div class = "page">
+    <h1>Assignment One</h1>
+    <h3>Gabriel Ralph - 470205736</h3>
+    <svg id = "graph" viewBox = "0 0 500 500">
+      <script type = "module">
+      import {SvgPlus, SvgPath, Vector} from 'https://www.svg.plus/3.5.js'
+      class Graph extends SvgPlus{
+        constructor(){
+          super('graph');
+
+          this.lines = this.createChild('g', {class: 'lines'});
+          this.arrayPath = this.createChild(SvgPath);
+          this.arrayPath.class = 'dots'
+          this.highlights = this.createChild('g', {class: 'highlights'});
+          this.highlighteds = this.createChild('g', {class: 'highlighteds'});
+          this.solution = this.createChild('g', {class: 'solution'});
+          this.start();
+        }
+
+        set array(array){
+          this.length = array.length;
+          this._array = array;
+          this.e = this.length - 1;
+          this.s = 0;
+          this.solved = false;
+          for (var [i, value] of array.entries()) {
+            this.addPoint(new Vector(i, value));
+          }
+        }
+
+        get array(){
+          return this._array;
+        }
+
+        addHighlight(point){
+          let loc = point.mul(new Vector(400/this.length, -400/this.length)).add(50, 450);
+          this.dehighlight();
+          this.highlights.createChild('path', {
+            d: `M${loc}L${loc}`
+          })
+        }
+
+        addSolution(point){
+          let loc = point.mul(new Vector(400/this.length, -400/this.length)).add(50, 450);
+          this.dehighlight();
+          this.solution.createChild('path', {
+            d: `M${loc}L${loc}`
+          })
+          this.solved = true;
+        }
+
+        dehighlight(){
+          for (var child of this.highlights.children){
+            this.highlighteds.appendChild(child);
+          }
+        }
+
+        addPoint(point){
+          let loc = point.mul(new Vector(400/this.length, -400/this.length)).add(50, 450);
+          this.arrayPath.M(loc).L(loc);
+
+          this.lines.createChild('path', {
+            d: `M${loc}L${loc.mul(new Vector(1, 0)).add(0, 460)}`
+          })
+          this.lines.createChild('path', {
+            d: `M${loc}L${loc.mul(new Vector(0, 1)).add(new Vector(40, 0))}`
+          })
+          let xlabel = this.lines.createChild('text', {
+            x: loc.x,
+            y: 470,
+            'font-size': '8',
+            'text-anchor': 'middle'
+          })
+          let ylabel = this.lines.createChild('text', {
+            y: 453 -point.x*400/this.length,
+            x: 35,
+            'font-size': '8',
+            'text-anchor': 'end'
+          })
+          xlabel.innerHTML = point.x
+          ylabel.innerHTML = point.x
+        }
+
+        start(){
+          this.cleaGraph();
+          this.makeArray(30, Math.round(30*Math.random()));
+          let next = () => {
+            this.next();
+            if (!this.solved){
+              setTimeout(() => {
+                next();
+              }, 1000);
+            }else{
+              setTimeout(() => {
+                this.start();
+              }, 3000);
+            }
+          }
+          setTimeout(() => {
+            next();
+          }, 1000);
+        }
+
+        makeArray(n, x){
+          let a = [];
+          for (var i = 0; i < n; i++){
+            a.push((i + x) % n);
+          }
+          this.array = a;
+        }
+
+        // onclick(){
+        //   this.next();
+        // }
+
+        cleaGraph(){
+          this.highlights.innerHTML = "";
+          this.highlighteds.innerHTML = "";
+          this.solution.innerHTML = "";
+          this.arrayPath.d.clear();
+          this.lines.innerHTML = "";
+        }
+
+        next(){
+          let mid = Math.round((this.e + this.s)/2);
+          let m = this.array[mid];
+          let ev = this.array[this.e];
+          let sv = this.array[this.s];
+          // console.log(this.s, this.e);
+          let point = new Vector(mid, m);
+          if (ev > sv){
+              this.addSolution(new Vector(this.e, ev));
+              this.solved = true;
+          }else if (this.s + 1 == this.e){
+            if (ev > sv) {
+              this.addSolution(new Vector(this.e, ev));
+            }else{
+              this.addSolution(new Vector(this.s, sv));
+            }
+            this.solved = true;
+          }else{
+            this.addHighlight(point);
+            if (Math.abs(m - ev) > Math.abs(m - sv)){
+              this.s = mid;
+            }else{
+              this.e = mid;
+            }
+          }
+        }
+      }
+      new Graph();
+    </script>
+    </svg>
+    <div>
+
+      For an array S of unique numbers ordered in such a way that given some number x
+      the order of an element is $S_i = (i + x ) \ \% \ n$ where n is the length.
+      $$ max(S) = S_i \quad and \quad min(S) = S_{i+1} \quad when \quad x + i = n - 1$$
+      <h3>Assumptions</h3>
+      <div class = "cases">
+        As $n = 0$ and $n = 1$ are trivial cases lets assume $n > 1$<br /><br />
+
+        As the module operater will bound $x$ let us assume $x \in (0, n-1)$<br /><br />
+      </div>
+      It can be seen that $ (x + i) \ \% \ n < (x + i + 1) \ \% \ n \quad when \quad  x + i \ne n - 1$<br /><br />
+      Hence $$S_i < S_{i+1} \quad x + i \ne n - 1$$<br /><br />
+
+      $S_0 = x\ \% \ n = x%$<br /><br />
+      $S_{n-1} = x + n - 1 \ \% \ n=\begin{cases}
+        x - 1 & x \ne 0 \\
+        n - 1 & x = 0 \\
+      \end{cases}$<br /><br />
+      therefore $$S_0 > S_{n - 1} \quad x \ne 0$$
+
+      $$S_0 < S_1 < S_2 < ... < S_{max}$$ $$S_{min} < S_{min+1} < ... < S_{n - 1}$$
+      Hence the values to the left of the largest number are greater than the values to the right.<br /><br />
+
+      Consider a subset of S, C such that C includes the largest number:<br />
+
+    </div><br />
+    <div class = "cases">
+      <b>case 1: $C_0 < C_{n_c - 1}$</b>
+      <div>
+        This will occur only when the largest value is at the end of the subset and there are no values to right.<br /><br />
+        Therefore $Max(S) = C_{n_c - 1}$
+      </div><br />
+      <b>case 2: $C_0 > C_{n_c - 1}$</b>
+      <div>
+        If we look at the value in the middle of the subset $C_{mid}$ then the
+        largest value must exist either to the right, left or $Max(S) = C_{mid}$<br /><br />
+        Consider those cases:<br /><br />
+        <div>
+          <b>case 1:</b> $Max(S) = C_{mid}$
+          <div>
+            $C_{mid} > C_0 > C_{n_c - 1}$<br /><br />
+            $0 > C_0 - C_{mid} > C_{n_c - 1} - C_{mid}$<br /><br />
+            $C_{mid} - C_{n_c - 1} > C_{mid} - C_0$ or
+            $$|C_{n_c - 1}  - C_{mid}| > |C_0 - C_{mid}|$$
+            Although this suggests that the solution is to the right of the midpoint if
+            the next subset includes the last midpoint then solution will always be included
+            in further itterations and hence this case can be ignored.<br /><br />
+
+          </div>
+          <b>case 2:</b> largest number to the left of midpoint
+          <div>
+            The midpoint is to the right of the solution and $C_0 > C_{n_c - 1} > C_{mid}$
+            $$|C_0 - C_{mid}| > |C_{n_c - 1} - C_{mid}|$$
+          </div><br />
+          <b>case 3:</b> largest number to the right of the midpoint
+          <div>
+            The midpoint is to the left of the solution and $C_{mid} > C_0 > C_{n_c - 1}$<br /><br />
+            $0 > C_0 - C_{mid} > C_{n_c - 1} - C_{mid}$<br /><br />
+            $C_{mid} - C_{n_c - 1} > C_{0} -C_{mid} > 0$ or
+            $$|C_{n_c - 1}  - C_{mid}| > |C_0 - C_{mid}|$$
+          </div>
+
+        </div>
+      </div>
+    </div>
+    By recursively choosing the half of a subset that contains the solution we will be left with
+    a subset that contains only the largest value and another value. This will occur after $log(n)$
+    recursive calls as for every call the subset will decrease by half, further more as only a constant
+    number of elements are checked in each call this algorithm will run in $O(log(n))$ time.
+  </div>
+</body>
+
+
+
+  <style>
+    body{
+      font-family: 'Supreme LL TT Book';
+      margin: auto;
+      width: 210mm;
+      background: #222223;
+    }
+    .page{
+      background: white;
+      width: calc(210mm - 20%);
+      min-height: calc(297mm - 10%);
+      padding: 5% 10%;
+      margin: 10% 0;
+    }
+    svg{
+      width: 100%;
+    }
+
+    path.dots{
+      stroke-linecap: round;
+      stroke: black;
+      stroke-width: 2;
+    }
+    .lines path {
+      stroke: #DDD5;
+      stroke-width: 1;
+    }
+    .highlights path{
+      stroke-linecap: round;
+      stroke: red;
+      stroke-width: 6;
+    }
+    .highlighteds path{
+      stroke-linecap: round;
+      stroke: #F005;
+      stroke-width: 6;
+    }
+
+    .solution path{
+      stroke-linecap: round;
+      stroke: #0F0;
+      stroke-width: 6;
+    }
+
+    .cases div, .cases{
+      padding-left: 10px;
+    }
+
+
+  </style>
+</html>
