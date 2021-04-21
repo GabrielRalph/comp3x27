@@ -7,11 +7,15 @@
   <body>
     <button onclick = "getAccel()">Get Permission</button>
     <canvas  id = "myCanvas" width = "50" height = "50"></canvas>
+    <div id = "code">
+
+      </div>
   </body>
   <script>
     let alpha = 10;
     let beta = 10;
     let gamma = 10;
+    let code = document.getElementById("code");
     function getAccel(){
         // feature detect
       if (typeof DeviceMotionEvent.requestPermission === 'function') {
@@ -19,9 +23,10 @@
           .then(permissionState => {
               if (permissionState === 'granted') {
                 window.addEventListener('deviceorientation',(event) => {
-                  alpha = 5+10*event.alpha/360);
+                  alpha = 5+10*event.alpha/360;
                   beta = (1.5 + Math.sin(2*Math.PI*event.beta/360))/2;
-                  gamma = 5+5*(1 + Math.sin(2*Math.PI*event.gamm/360));
+                  gamma = 5+5*(1 + Math.sin(2*Math.PI*event.gamma/360));
+                  code.innerHTML = `alpha: ${event.alpha}, beta: ${event.beta}, gamma: ${event.gamma} `
               });
             }
           })
