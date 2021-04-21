@@ -23,10 +23,10 @@
           .then(permissionState => {
               if (permissionState === 'granted') {
                 window.addEventListener('deviceorientation',(event) => {
-                  alpha = 5+5*(1 + Math.sin(2*Math.PI*(event.gamma + 180)/360));
-                  beta = (1.5 + Math.sin(2*Math.PI*(event.beta + 180)/360))/2;
-                  gamma = 5+5*(1 + Math.sin(2*Math.PI*(event.gamma + 180)/360));
-                  code.innerHTML = `alpha: ${event.alpha}, beta: ${event.beta}, gamma: ${event.gamma}`
+                  alpha = 5+5*(1 + Math.sin(2*Math.PI*(event.alpha*2 + 180)/360));
+                  beta = (1.5 + Math.sin(2*Math.PI*(event.beta*2 + 180)/360))/2;
+                  gamma = 5+5*(1 + Math.sin(2*Math.PI*(event.gamma*2 + 180)/360));
+                  // code.innerHTML = `alpha: ${event.alpha}, beta: ${event.beta}, gamma: ${event.gamma}`
               });
             }
           })
