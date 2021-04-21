@@ -9,9 +9,9 @@
     <canvas  id = "myCanvas" width = "50" height = "50"></canvas>
   </body>
   <script>
-    let a = 10;
-    let b = 10;
-    let g = 10;
+    let alpha = 10;
+    let beta = 10;
+    let gamma = 10;
     function getAccel(){
         // feature detect
       if (typeof DeviceMotionEvent.requestPermission === 'function') {
@@ -19,9 +19,9 @@
           .then(permissionState => {
               if (permissionState === 'granted') {
                 window.addEventListener('deviceorientation',(event) => {
-                  let a = 3 + 10*event.alpha/360;
-                  let b = 3 + 10*event.beta/360;
-                  let g = 3 + 10*event.gamma/360;
+                  alpha = 3 + 10*event.alpha/360;
+                  beta = 3 + 10*event.beta/360;
+                  gamma = 3 + 10*event.gamma/360;
               });
             }
           })
@@ -100,8 +100,8 @@
     let next = () => {
       for (var i = 0; i < 50; i++){
         for (var j = 0; j < 50; j++){
-          let x = i/a + b;
-          let y = j/g + a;
+          let x = i/alpha + beta;
+          let y = j/gamma + alpha;
           let z = (2 + Math.sin(x) + Math.cos(x * y))/4;
           let c = getColor(z);
 
