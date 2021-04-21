@@ -453,19 +453,34 @@
         this.cost_right = 3;
         this.cost_up = 3;
         this.budget = 40;
+        this.running = false;
 
         this.max_score_data = data;
         this.drawControls();
 
       }
+
       async onclick(){
+        if (this.running) return;
+        this.running = true;
         await this.fade(300, false)
         await this.solveAndFindPath(50);
         setTimeout(async () => {
           await this.fade(300, true);
           this.draw();
+          this.running = false;
+        }, 3000)
+      }
 
-        }, 2000)
+      set running(val){
+        this._running = val;
+        this.styles = {
+          cursor: val ? "auto" : "pointer",
+          'user-select': 'none'
+        }
+      }
+      get running(){
+        return this._running;
       }
 
       get n(){
