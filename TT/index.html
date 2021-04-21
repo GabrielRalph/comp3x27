@@ -100,8 +100,8 @@
     let next = () => {
       for (var i = 0; i < 50; i++){
         for (var j = 0; j < 50; j++){
-          let x = i/alpha*beta;
-          let y = j/gamma*beta;
+          let x = i/alpha;
+          let y = j/gamma;
           let z = (2 + Math.sin(x) + Math.cos(x * y))/4;
           let c = getColor(z);
 
