@@ -19,9 +19,9 @@
           .then(permissionState => {
               if (permissionState === 'granted') {
                 window.addEventListener('deviceorientation',(event) => {
-                  alpha = 5+5*(1 + Math.sin(Math.PI*event.alpha/360));
+                  alpha = 5+5*(1 + Math.sin(2*Math.PI*event.alpha/360));
                   beta = (1.5 + Math.sin(Math.PI*event.alpha/360))/2;
-                  gamma = 5+5*(1 + Math.sin(Math.PI*event.alpha/360));
+                  gamma = 5+5*(1 + Math.sin(2*Math.PI*event.alpha/360));
               });
             }
           })
