@@ -2,7 +2,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Assignment Two</title>
-    <meta name="viewport" content="width=210mm, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://arcms.w4v.es/Assets/Supreme/stylesheet.css" rel="stylesheet">
     <script>
     MathJax = {
@@ -338,6 +338,7 @@
   </body>
   <script type = "module">
     import {SvgPlus, Vector} from 'https://www.svg.plus/3.5.js'
+
     class GridMapEl extends SvgPlus{
       constructor(){
         super('div');
@@ -702,7 +703,10 @@
   body{
     font-family: 'Supreme LL TT Book';
     background: #222223;
-    margin: 20mm 0;
+    --m: max(calc(50vw - 105mm), 0px);
+    --m2: min(var(--m), 20mm);
+    margin:  var(--m2) 0;
+    --size: min(210mm, 100vw);
   }
 
   text.node{
@@ -712,10 +716,11 @@
   }
 
   .page{
-    width: calc(210mm - 2*20mm);
+    width: calc(var(--size)*0.8);
     margin: auto;
     background: white;
-    padding: 20mm;
+    font-size: calc(var(--size)*0.02);
+    padding: calc(var(--size)*0.1);
   }
 
   @media print
