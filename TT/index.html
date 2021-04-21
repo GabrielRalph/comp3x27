@@ -19,9 +19,9 @@
           .then(permissionState => {
               if (permissionState === 'granted') {
                 window.addEventListener('deviceorientation',(event) => {
-                  alpha = 5+5*(1 + Math.sin(2*Math.PI*event.alpha/360));
-                  beta = (1.5 + Math.sin(Math.PI*event.alpha/360))/2;
-                  gamma = 5+5*(1 + Math.sin(2*Math.PI*event.alpha/360));
+                  alpha = 5+10*event.alpha/360);
+                  beta = (1.5 + Math.sin(2*Math.PI*event.beta/360))/2;
+                  gamma = 5+5*(1 + Math.sin(2*Math.PI*event.gamm/360));
               });
             }
           })
@@ -100,8 +100,8 @@
     let next = () => {
       for (var i = 0; i < 50; i++){
         for (var j = 0; j < 50; j++){
-          let x = i/alpha;
-          let y = j/gamma;
+          let x = i/(alpha + beta);
+          let y = j/(gamma + beta);
           let z = (2 + Math.sin(x) + Math.cos(x * y))/4;
           let c = getColor(z);
 
