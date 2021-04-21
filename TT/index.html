@@ -6,7 +6,7 @@
   </head>
   <body>
     <button onclick = "getAccel()">Get Permission</button>
-    <canvas  id = "myCanvas" width = "50" height = "50"></canvas>
+    <canvas  id = "myCanvas" width = "80" height = "80"></canvas>
     <div id = "code">
 
       </div>
@@ -26,7 +26,7 @@
                   alpha = 5+5*(1 + Math.sin(2*Math.PI*(event.alpha*2 + 180)/360));
                   beta = (1.5 + Math.sin(2*Math.PI*(event.beta*2 + 180)/360))/2;
                   gamma = 5+5*(1 + Math.sin(2*Math.PI*(event.gamma*2 + 180)/360));
-                  // code.innerHTML = `alpha: ${event.alpha}, beta: ${event.beta}, gamma: ${event.gamma}`
+                  code.innerHTML = `alpha: ${event.alpha}, beta: ${event.beta}, gamma: ${event.gamma}`
               });
             }
           })
@@ -103,8 +103,8 @@
 
 
     let next = () => {
-      for (var i = 0; i < 50; i++){
-        for (var j = 0; j < 50; j++){
+      for (var i = 0; i < 80; i++){
+        for (var j = 0; j < 80; j++){
           let x = i/(alpha + beta);
           let y = j/(gamma + beta);
           let z = (2 + Math.sin(x) + Math.cos(x * y))/4;
