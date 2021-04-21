@@ -9,14 +9,20 @@
     <canvas  id = "myCanvas" width = "50" height = "50"></canvas>
   </body>
   <script>
+    let a = 10;
+    let b = 10;
+    let g = 10;
     function getAccel(){
         // feature detect
       if (typeof DeviceMotionEvent.requestPermission === 'function') {
         DeviceMotionEvent.requestPermission()
           .then(permissionState => {
-            alert(permissionState)
-            if (permissionState === 'granted') {
-              // window.addEventListener('devicemotion', () => {});
+              if (permissionState === 'granted') {
+                window.addEventListener('deviceorientation',(event) => {
+                  let a = 3 + 10*event.alpha/360;
+                  let b = 3 + 10*event.beta/360;
+                  let g = 3 + 10*event.gamma/360;
+              });
             }
           })
           .catch(console.error);
@@ -24,113 +30,90 @@
         // handle regular non iOS 13+ devices
       }
     }
-  </script>
 
-  <script type = "module">
-  import {SvgPlus, SvgPath, Vector} from 'https://www.svg.plus/3.5.js';
-  var c = document.getElementById("myCanvas");
+    var c = document.getElementById("myCanvas");
 
-  console.log(c);
-  var ctx = c.getContext("2d");
+    console.log(c);
+    var ctx = c.getContext("2d");
 
-  var pixel = ctx.createImageData(1,1); // only do this once per page
-  let makePixel = (x, y, r, g, b, a= 255) => {
-    let d  = pixel.data;                        // only do this once per page
-    pixel.data[0]   = r;
-    pixel.data[1]   = g;
-    pixel.data[2]   = b;
-    pixel.data[3]   = a;
-    ctx.putImageData( pixel, x, y);
+    var pixel = ctx.createImageData(1,1); // only do this once per page
+    let makePixel = (x, y, r, g, b, a= 255) => {
+      let d  = pixel.data;                        // only do this once per page
+      pixel.data[0]   = r;
+      pixel.data[1]   = g;
+      pixel.data[2]   = b;
+      pixel.data[3]   = a;
+      ctx.putImageData( pixel, x, y);
+    }
+
+    function HSLToRGB(h,s,l) {
+        // Must be fractions of 1
+     s /= 100;
+     l /= 100;
+
+     let c = (1 - Math.abs(2 * l - 1)) * s,
+         x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+         m = l - c/2,
+         r = 0,
+         g = 0,
+         b = 0;
+
+      if (0 <= h && h < 60) {
+        r = c; g = x; b = 0;
+      } else if (60 <= h && h < 120) {
+        r = x; g = c; b = 0;
+      } else if (120 <= h && h < 180) {
+        r = 0; g = c; b = x;
+      } else if (180 <= h && h < 240) {
+        r = 0; g = x; b = c;
+      } else if (240 <= h && h < 300) {
+        r = x; g = 0; b = c;
+      } else if (300 <= h && h < 360) {
+        r = c; g = 0; b = x;
+      }
+      r = Math.round((r + m) * 255);
+      g = Math.round((g + m) * 255);
+      b = Math.round((b + m) * 255);
+
+    return {r: r, g: g, b: b}
   }
 
-  function HSLToRGB(h,s,l) {
-      // Must be fractions of 1
-   s /= 100;
-   l /= 100;
-
-   let c = (1 - Math.abs(2 * l - 1)) * s,
-       x = c * (1 - Math.abs((h / 60) % 2 - 1)),
-       m = l - c/2,
-       r = 0,
-       g = 0,
-       b = 0;
-
-    if (0 <= h && h < 60) {
-      r = c; g = x; b = 0;
-    } else if (60 <= h && h < 120) {
-      r = x; g = c; b = 0;
-    } else if (120 <= h && h < 180) {
-      r = 0; g = c; b = x;
-    } else if (180 <= h && h < 240) {
-      r = 0; g = x; b = c;
-    } else if (240 <= h && h < 300) {
-      r = x; g = 0; b = c;
-    } else if (300 <= h && h < 360) {
-      r = c; g = 0; b = x;
+    let getColor = (x) => {
+      return HSLToRGB(hue(x), 100, 50);
     }
-    r = Math.round((r + m) * 255);
-    g = Math.round((g + m) * 255);
-    b = Math.round((b + m) * 255);
 
-  return {r: r, g: g, b: b}
-}
-
-  let getColor = (x) => {
-    return HSLToRGB(hue(x), 100, 50);
-  }
-
-  let hue = (x) => {
-    let step = (x) => {
-      return 1/ ( 1 + Math.pow(2.71, -x/0.1))
-    }
-    if (x > 0.55){
-      let n = 1.44*(x - 0.55)/0.45 -0.44;
-      console.log(step(n)/2 + 1);
-      return step(n)*120 + 180;
-    }else{
-      let n = 2*x/0.55 - 1;
-      return 60 + step(n)*120;
-    }
-  }
-
-
-
-  let next = () => {
-    let d = Math.random()*10
-    for (var i = 0; i < 50; i++){
-      for (var j = 0; j < 50; j++){
-        let x = i/d;
-        let y = j/d;
-        let z = (2 + Math.sin(x) + Math.cos(x * y))/4;
-        let c = getColor(z);
-
-        makePixel(i, j, c.r, c.g, c.b, 40)
+    let hue = (x) => {
+      let step = (x) => {
+        return 1/ ( 1 + Math.pow(2.71, -x/0.1))
+      }
+      if (x > 0.55){
+        let n = 1.44*(x - 0.55)/0.45 -0.44;
+        console.log(step(n)/2 + 1);
+        return step(n)*120 + 180;
+      }else{
+        let n = 2*x/0.55 - 1;
+        return 60 + step(n)*120;
       }
     }
-    window.requestAnimationFrame(next);
-  }
 
 
+    let next = () => {
+      for (var i = 0; i < 50; i++){
+        for (var j = 0; j < 50; j++){
+          let x = i/a + b;
+          let y = j/g + a;
+          let z = (2 + Math.sin(x) + Math.cos(x * y))/4;
+          let c = getColor(z);
 
-  // document.body.onclick = () => {
-  //   // alert('get acc')
-  //   getAccel();
-  // }
-  // for (var x = 0; x < 1; x+= 1/50){
-  //   j++;
-  //   let s = step3(x)
-  //   console.log(Math.round(s));
-  //   makePixel(j, s, 255, 0, 0)
-  //
-  // }
-  //
-  // next();
-  // let t0 = window.performance.now();
-  // console.log(window.performance.now() - t0);
-  // console.log(1000/60);
-
+          makePixel(i, j, c.r, c.g, c.b, 40)
+        }
+      }
+      window.requestAnimationFrame(next);
+    }
+    next();
 
   </script>
+
 
   <style>
   canvas{
