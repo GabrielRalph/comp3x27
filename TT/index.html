@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
-    <button onclick = "getAccel()">Get Permission</button>
+    <button onclick = "getAccel()">Get Gyroscope Permission</button>
     <div id = "code">
       debug
       </div>
@@ -41,8 +41,8 @@
                 let alpha = (1 + Math.sin(2*Math.PI*(event.alpha*2 + 180)/360))/2;
                 let gamma = (1 + Math.sin(2*Math.PI*(event.gamma*2 + 180)/360))/2;
                 let beta = (1 + Math.sin(2*Math.PI*(event.beta*2 + 180)/360))/2;
-                update(alpha, gamma, beta)
-                code.innerHTML = `alpha: ${Math.round(alpha*360)}, beta: ${Math.round(beta*360)}, gamma: ${Math.round(gamma*360)}`
+                update(alpha, beta, gamma)
+                code.innerHTML = `ax: ${Math.round(alpha*360)}, ay: ${Math.round(beta*360)}, az: ${Math.round(gamma*360)}`
             });
           }else{
             code.innerHTML = "Error permission denied"
@@ -61,6 +61,36 @@
 
 
   <style>
+  body{
+    font-family: monospace;
+  }
+  .function-image input{
+    width: 80%;
+    padding: 2vw 0;
+    padding-left: 2vw;
+  }
+
+
+  .function-image span, button{
+    background: #0195ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    font-family: monospace;
+  }
+  .function-image span{
+    font-size: 4vw;
+    padding: 5px;
+    float: right;
+  }
+  #code{
+    background: #0195ff33;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
   canvas{
     width: 100%;
 

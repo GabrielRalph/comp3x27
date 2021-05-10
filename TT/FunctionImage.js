@@ -45,16 +45,9 @@ class FunctionImage extends SvgPlus{
   constructor(){
     super("div")
     this.input = this.createChild("input")
-    this.input.styles = {width:"80%"}
     this.update = this.createChild("span")
     this.update.innerHTML = "UPDATE"
-    this.update.styles = {
-      background: 'grey',
-      cursor:'pointer',
-      'margin-left': '10px',
-      color: 'white',
-      padding: '0 10px'
-    }
+    this.class = "function-image"
     this.update.onclick = () => {
       this.fs = this.input.value
     }
