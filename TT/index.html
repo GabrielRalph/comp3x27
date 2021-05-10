@@ -6,116 +6,43 @@
   </head>
   <body>
     <button onclick = "getAccel()">Get Permission</button>
-    <canvas  id = "myCanvas" width = "80" height = "80"></canvas>
+    <svg>
+
+      <!-- <canvas  id = "myCanvas" width = "80" height = "80"></canvas> -->
+    </svg>
     <div id = "code">
 
       </div>
   </body>
+  <script type = "module">
+    import {FunctionImage} from "./FunctionImage.js"
+    let func = new FunctionImage("myCanvas")
+    document.body.appendChild(func)
+    func.start()
+    func.id = "test"
+  </script>
   <script>
-    let alpha = 10;
-    let beta = 10;
-    let gamma = 10;
-    let code = document.getElementById("code");
-    function getAccel(){
-        // feature detect
-      if (typeof DeviceMotionEvent.requestPermission === 'function') {
-        DeviceMotionEvent.requestPermission()
-          .then(permissionState => {
-              if (permissionState === 'granted') {
-                window.addEventListener('deviceorientation',(event) => {
-                  alpha = 5+5*(1 + Math.sin(2*Math.PI*(event.alpha*2 + 180)/360));
-                  beta = (1.5 + Math.sin(2*Math.PI*(event.beta*2 + 180)/360))/2;
-                  gamma = 5+5*(1 + Math.sin(2*Math.PI*(event.gamma*2 + 180)/360));
-                  code.innerHTML = `alpha: ${event.alpha}, beta: ${event.beta}, gamma: ${event.gamma}`
-              });
-            }
-          })
-          .catch(console.error);
-      } else {
-        // handle regular non iOS 13+ devices
-      }
+  let test = document.getElementById("test")
+  let code = document.getElementById("code");
+  function getAccel(){
+      // feature detect
+    if (typeof DeviceMotionEvent.requestPermission === 'function') {
+      DeviceMotionEvent.requestPermission()
+        .then(permissionState => {
+            if (permissionState === 'granted') {
+              window.addEventListener('deviceorientation',(event) => {
+                test.ax = 5+5*(1 + Math.sin(2*Math.PI*(event.alpha*2 + 180)/360));
+                test.ay = (1.5 + Math.sin(2*Math.PI*(event.beta*2 + 180)/360))/2;
+                test.az = 5+5*(1 + Math.sin(2*Math.PI*(event.gamma*2 + 180)/360));
+                code.innerHTML = `alpha: ${event.alpha}, beta: ${event.beta}, gamma: ${event.gamma}`
+            });
+          }
+        })
+        .catch(console.error);
+    } else {
+      // handle regular non iOS 13+ devices
     }
-
-    var c = document.getElementById("myCanvas");
-
-    console.log(c);
-    var ctx = c.getContext("2d");
-
-    var pixel = ctx.createImageData(1,1); // only do this once per page
-    let makePixel = (x, y, r, g, b, a= 255) => {
-      let d  = pixel.data;                        // only do this once per page
-      pixel.data[0]   = r;
-      pixel.data[1]   = g;
-      pixel.data[2]   = b;
-      pixel.data[3]   = a;
-      ctx.putImageData( pixel, x, y);
-    }
-
-    function HSLToRGB(h,s,l) {
-        // Must be fractions of 1
-     s /= 100;
-     l /= 100;
-
-     let c = (1 - Math.abs(2 * l - 1)) * s,
-         x = c * (1 - Math.abs((h / 60) % 2 - 1)),
-         m = l - c/2,
-         r = 0,
-         g = 0,
-         b = 0;
-
-      if (0 <= h && h < 60) {
-        r = c; g = x; b = 0;
-      } else if (60 <= h && h < 120) {
-        r = x; g = c; b = 0;
-      } else if (120 <= h && h < 180) {
-        r = 0; g = c; b = x;
-      } else if (180 <= h && h < 240) {
-        r = 0; g = x; b = c;
-      } else if (240 <= h && h < 300) {
-        r = x; g = 0; b = c;
-      } else if (300 <= h && h < 360) {
-        r = c; g = 0; b = x;
-      }
-      r = Math.round((r + m) * 255);
-      g = Math.round((g + m) * 255);
-      b = Math.round((b + m) * 255);
-
-    return {r: r, g: g, b: b}
   }
-
-    let getColor = (x) => {
-      return HSLToRGB(hue(x), 100, 50);
-    }
-
-    let hue = (x) => {
-      let step = (x) => {
-        return 1/ ( 1 + Math.pow(2.71, -x/0.1))
-      }
-      if (x > 0.55){
-        let n = 1.44*(x - 0.55)/0.45 -0.44;
-        console.log(step(n)/2 + 1);
-        return step(n)*120 + 180;
-      }else{
-        let n = 2*x/0.55 - 1;
-        return 60 + step(n)*120;
-      }
-    }
-
-
-    let next = () => {
-      for (var i = 0; i < 80; i++){
-        for (var j = 0; j < 80; j++){
-          let x = i/(alpha + beta);
-          let y = j/(gamma + beta);
-          let z = (2 + Math.sin(x) + Math.cos(x * y))/4;
-          let c = getColor(z);
-
-          makePixel(i, j, c.r, c.g, c.b, 40)
-        }
-      }
-      window.requestAnimationFrame(next);
-    }
-    next();
 
   </script>
 

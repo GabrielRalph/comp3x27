@@ -362,6 +362,7 @@
         }
       }
     }
+
     class GridPoint extends SvgPlus{
       constructor(x, y, rad, value){
         super('g');
@@ -412,16 +413,13 @@
           this.fill = "hsl(278, 100%, 50%)";
         }
       }
-
-      set fill(value){
-        this.ellipse.styles = {fill: value}
-      }
-
-
       get opt(){
         return this._opt;
       }
 
+      set fill(value){
+        this.ellipse.styles = {fill: value}
+      }
     }
     class GridMap extends SvgPlus{
       constructor(data){
@@ -493,6 +491,7 @@
         }
         return 0;
       }
+
       get rad(){
         return Math.min(100/(this.m - 1), 100/(this.n - 1))/3;
       }
@@ -505,7 +504,6 @@
           this.blur.props = {stdDeviation: a}
         }, duration, dir)
       }
-
 
       set max_score_data(data){
         if (typeof data === 'object' && data !== null)
