@@ -31,6 +31,7 @@
         .then(permissionState => {
             if (permissionState === 'granted') {
               window.addEventListener('deviceorientation',(event) => {
+                alert("x")
                 test.ax = 5+5*(1 + Math.sin(2*Math.PI*(event.alpha*2 + 180)/360));
                 test.ay = (1.5 + Math.sin(2*Math.PI*(event.beta*2 + 180)/360))/2;
                 test.az = 5+5*(1 + Math.sin(2*Math.PI*(event.gamma*2 + 180)/360));
