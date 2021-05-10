@@ -22,19 +22,25 @@
   let code = document.getElementById("code");
   function getAccel(){
       // feature detect
+    code.innerHTML = "get Acc"
     if (typeof DeviceMotionEvent.requestPermission === 'function') {
       DeviceMotionEvent.requestPermission()
         .then(permissionState => {
             if (permissionState === 'granted') {
               window.addEventListener('deviceorientation',(event) => {
+                code.innerHTML = "update"
                 test.ax = 5+5*(1 + Math.sin(2*Math.PI*(event.alpha*2 + 180)/360));
                 test.ay = (1.5 + Math.sin(2*Math.PI*(event.beta*2 + 180)/360))/2;
                 test.az = 5+5*(1 + Math.sin(2*Math.PI*(event.gamma*2 + 180)/360));
                 code.innerHTML = `alpha: ${event.alpha}, beta: ${event.beta}, gamma: ${event.gamma}`
             });
+          }else{
+            code.innerHTML = "Error permission denied"
           }
         })
-        .catch(console.error);
+        .catch(() =>{
+          code.innerHTML = "Error on device motion permission request"
+        });
     } else {
       // handle regular non iOS 13+ devices
     }
