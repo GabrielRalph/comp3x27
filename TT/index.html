@@ -18,8 +18,18 @@
     func.id = "test"
   </script>
   <script>
-  let test = document.getElementById("test")
+
   let code = document.getElementById("code");
+  let test = document.getElementById("test")
+  let update = (x, z, y) => {
+    if (test instanceof Element){
+      test.ax = x;
+      test.az = z;
+      test.ay = y;
+    }else{
+      test = document.getElementById("test")
+    }
+  }
   function getAccel(){
       // feature detect
     code.innerHTML = "get Acc"
@@ -31,9 +41,7 @@
                 let alpha = (1 + Math.sin(2*Math.PI*(event.alpha*2 + 180)/360))/2;
                 let gamma = (1 + Math.sin(2*Math.PI*(event.gamma*2 + 180)/360))/2;
                 let beta = (1 + Math.sin(2*Math.PI*(event.beta*2 + 180)/360))/2;
-                test.ax = alpha;
-                test.ay = beta;
-                test.az = gamma;
+                update(alpha, gamma, beta)
                 code.innerHTML = `alpha: ${Math.round(alpha*360)}, beta: ${Math.round(beta*360)}, gamma: ${Math.round(gamma*360)}`
             });
           }else{
@@ -47,6 +55,7 @@
       // handle regular non iOS 13+ devices
     }
   }
+
 
   </script>
 
