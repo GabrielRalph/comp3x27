@@ -52,7 +52,10 @@ class FunctionImage extends SvgPlus{
       this.fs = this.input.value
     }
 
-    this.canvas = this.createChild("canvas")
+    let div = this.createChild("DIV")
+    div.styles = {position: "relative"}
+    div.createChild("DIV").class = "pane"
+    this.canvas = div.createChild("canvas")
     this.size = 64
     this.canvas.props = {
       width: this.size,
