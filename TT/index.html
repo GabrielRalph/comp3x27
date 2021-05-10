@@ -34,7 +34,7 @@
                 test.ax = alpha;
                 test.ay = beta;
                 test.az = gamma;
-                code.innerHTML = `alpha: ${alpha}, beta: ${beta}, gamma: ${gamma}`
+                code.innerHTML = `alpha: ${Math.round(alpha*360)}, beta: ${Math.round(beta*360)}, gamma: ${Math.round(gamma*360)}`
             });
           }else{
             code.innerHTML = "Error permission denied"
