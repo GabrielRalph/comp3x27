@@ -28,7 +28,6 @@
         .then(permissionState => {
             if (permissionState === 'granted') {
               window.addEventListener('deviceorientation',(event) => {
-                code.innerHTML = "update"
                 let alpha = (1 + Math.sin(2*Math.PI*(event.alpha*2 + 180)/360))/2;
                 let gamma = (1 + Math.sin(2*Math.PI*(event.gamma*2 + 180)/360))/2;
                 let beta = (1 + Math.sin(2*Math.PI*(event.beta*2 + 180)/360))/2;
